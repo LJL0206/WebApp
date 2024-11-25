@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background for a soft look */
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            background: #fff; /* White background for the main content */
+            padding: 20px;
+        }
+        h1 {
+            color: #000000; /* Bootstrap primary color */
+        }
+        h2 {
+            margin-top: 30px;
+            color: #343a40; /* Darker color for section titles */
+        }
+        .btn {
+            margin-right: 10px;
+        }
+        table {
+            margin-top: 20px;
+        }
+        th, td {
+            text-align: center; /* Center align text in table */
+        }
+        th {
+            background-color: #369dc9; /* Bootstrap primary color for table header */
+            color: white;
+        }
+        .flash-message {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Student Management System</h1>
+        
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-success flash-message">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        
+        <div class="text-center mb-3">
+            <a href="{{ url_for('add_student') }}" class="btn btn-primary">Add Student</a>
+            <form action="{{ url_for('logout') }}" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        </div>
+        
+        <h2>Student List</h2>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.student_id }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.score }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_student', id=student.id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ url_for('delete_student', id=student.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
